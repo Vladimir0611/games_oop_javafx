@@ -2,7 +2,10 @@ package ru.job4j.chess.firuges.black;
 
 
 import org.junit.Test;
+import ru.job4j.chess.FigureNotFoundException;
 import ru.job4j.chess.ImpossibleMoveException;
+import ru.job4j.chess.Logic;
+import ru.job4j.chess.OccupiedCellException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
@@ -61,6 +64,30 @@ public class BishopBlackTest {
     public void testException() throws ImpossibleMoveException {
         BishopBlack black = new BishopBlack(Cell.C1);
         assertThat(black.way(Cell.A6), is("Could not move by diagonal from C1 to A6"));
+    }
+
+    @Test
+    public void testNotMove() throws OccupiedCellException, FigureNotFoundException, ImpossibleMoveException {
+        Logic logic = new Logic();
+        BishopBlack black = new BishopBlack(Cell.C1);
+        logic.add(black);
+        PawnBlack pawn = new PawnBlack(Cell.D2);
+        logic.add(pawn);
+
+        assertThat(logic.move(Cell.C1, Cell.E3), is(false));
+    }
+
+    @Test
+    public void testMove() throws OccupiedCellException, FigureNotFoundException, ImpossibleMoveException {
+        Logic logic = new Logic();
+        BishopBlack black = new BishopBlack(Cell.C1);
+        logic.add(black);
+        PawnBlack pawn = new PawnBlack(Cell.D4);
+        logic.add(pawn);
+
+        assertThat(logic.move(Cell.C1, Cell.F4), is(true));
+
+
     }
 }
 
